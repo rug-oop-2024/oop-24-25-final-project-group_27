@@ -11,3 +11,7 @@ def detect_feature_types(dataset: Dataset) -> List[Feature]:
         List[Feature]: List of features with their types.
     """
     raise NotImplementedError("This should be implemented by you.")
+    # Input is a Dataset
+    # Use read function to get pandas data frame
+    # Use dtypes function to get types of features
+    # Return List with features

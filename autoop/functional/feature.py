@@ -26,3 +26,4 @@ def detect_feature_types(dataset: Dataset) -> List[Feature]:
         features.append(checked_feature)
     # Return List with features
     return (features)
+

@@ -10,5 +10,6 @@ class Feature(BaseModel):
     name: str = Field(..., description="The name can be anything.")
     type: str = Field(None, description="Type must be 'numerical' or 'categorical'.")
 
+
     def __str__(self):
-        raise NotImplementedError("To be implemented.")
+        return f"This feature is called: {self.name}. It's type is: {self.type}."

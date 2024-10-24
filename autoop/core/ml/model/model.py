@@ -9,8 +9,6 @@ from pydantic import PrivateAttr
 class Model(ABC, Artifact):
     """Abstract base class for models."""
 
-    _parameters: dict = PrivateAttr(default=dict)
-
     def __init__(self, parameters: dict) -> None:
         """Initialize parameters."""
         self.parameters = parameters

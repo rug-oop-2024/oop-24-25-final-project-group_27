@@ -88,20 +88,4 @@ class AutoMLSystem:
     def registry(self):
         return self._registry
 
-    def handle_file_upload(self, uploaded_file) -> Tuple[Optional[pd.DataFrame], Optional[str]]:
-        """Handle CSV file upload and return a DataFrame or error message."""
-        try:
-            # Read the uploaded CSV file
-            data = pd.read_csv(uploaded_file)
-
-            # Handle missing values (you can customize this logic)
-            if data.isnull().values.any():
-                data.fillna(method='ffill', inplace=True)  # Forward fill for simplicity
-
-            # You could also consider saving the uploaded data as an artifact if needed
-            # artifact = Artifact(name="uploaded_data", data=data, ...)
-            # self.registry.register(artifact)  # Uncomment if you want to save the artifact
-
-            return data, None  # No error
-        except Exception as e:
-            return None, str(e)  # Return the error message
+    

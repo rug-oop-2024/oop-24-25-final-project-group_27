@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.svm import SVR
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
-
+#first implementation of the regression model. 
 class SVR(Model):
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:
         return super().fit(observations, ground_truth)

@@ -1,3 +1,3 @@
-from autoop.core.ml.model.classification.logistic_regression import LogisticRegressionWrapper
-from autoop.core.ml.model.classification.random_forest_classifier import RandomForestClassifierWrapper
-from autoop.core.ml.model.classification.svc import SVCWrapper
+from autoop.core.ml.model.classification.logistic_regression import LogisticRegression
+from autoop.core.ml.model.classification.random_forest_classifier import RandomForestClassifier
+from autoop.core.ml.model.classification.svc import SVC

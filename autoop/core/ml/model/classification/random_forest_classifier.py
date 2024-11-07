@@ -1,11 +1,11 @@
 from autoop.core.ml.model import Model
 import numpy as np
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier as RFC
 
-class RandomForestClassifierWrapper(Model):
+class RandomForestClassifier(Model):
     def __init__(self, parameters: dict) -> None:
         super().__init__(parameters)
-        self.model = RandomForestClassifier(**self._parameters)
+        self.model = RFC(**self._parameters)
 
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:
         self.model.fit(observations, ground_truth)

@@ -110,14 +110,27 @@ Pipeline(
             self._metrics_results.append((metric, result))
         self._predictions = predictions
 
+    def _train_evaluate(self):
+        X = self._compact_vectors(self._train_X)
+        Y = self._train_y
+        self._train_metrics_results = []
+        predictions = self._model.predict(X)
+        for metric in self._metrics:
+            result = metric.evaluate(predictions, Y)
+            self._train_metrics_results.append((metric, result))
+        self._train_predictions = predictions
+
     def execute(self):
         self._preprocess_features()
         self._split_data()
         self._train()
         self._evaluate()
+        self._train_evaluate()
         return {
-            "metrics": self._metrics_results,
-            "predictions": self._predictions,
+            "test_metrics": self._metrics_results,
+            "test_predictions": self._predictions,
+            "train_metrics": self._train_metrics_results,
+            "train_predictions": self._train_predictions
         }
         
 

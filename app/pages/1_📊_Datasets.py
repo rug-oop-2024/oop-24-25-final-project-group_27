@@ -13,9 +13,7 @@ st.write("Upload a CSV for processing.")
 
 uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
 
-if uploaded_file is not None:
-    #Convert the given CSV into a Pandas DF to work with later
-    df = pd.read_csv(uploaded_file)
-    st.write(df)
-
+name = input("")
+new_dataset = Dataset()
+Dataset.from_dataframe(uploaded_file, name=name, )
 

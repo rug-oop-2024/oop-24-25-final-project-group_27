@@ -47,3 +47,5 @@ if uploaded_file:
 
 else:
     st.write("Please upload a CSV to continue.")
+
+    if st.button("Delete dataset"):

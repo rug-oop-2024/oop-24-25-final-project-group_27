@@ -66,7 +66,7 @@ class MeanSquaredError(Metric):
 
     def __str__(self) -> str:
         """Return the name of metric"""
-        return "MeanSuaredError"
+        return "MeanSquaredError"
 
 
 class MeanAbsoluteError(Metric):
@@ -88,6 +88,7 @@ class RSquared(Metric):
         """Return the name of metric"""
         return "RSquared"
 
+
 class Accuracy(Metric):
     def evaluate(self, ground_truth: np.ndarray, predictions: np.ndarray) -> float:
         """Evaluate using Accuracy."""
@@ -100,10 +101,20 @@ class Accuracy(Metric):
 
 class Precision(Metric):
     def evaluate(self, ground_truth: np.ndarray, predictions: np.ndarray) -> float:
-        """Evaluate using Precision metric."""
-        tp = np.sum((ground_truth == 1) & (predictions == 1))
-        fp = np.sum((ground_truth == 0) & (predictions == 1))
-        return tp / (tp + fp) if (tp + fp) > 0 else 0
+        """Evaluate using Precision for multiclass classification."""
+        # Look how much classes we have
+        classes = np.unique(ground_truth)
+        precision_scores = []
+
+        # Go over classes and find precision score per class
+        for cls in classes:
+            tp = np.sum((ground_truth == cls) & (predictions == cls))
+            fp = np.sum((ground_truth != cls) & (predictions == cls))
+            precision = tp / (tp + fp) if (tp + fp) > 0 else 0
+            precision_scores.append(precision)
+
+        # We perform macro-averaging
+        return np.mean(precision_scores)
 
     def __str__(self) -> str:
         """Return the name of metric"""
@@ -112,10 +123,20 @@ class Precision(Metric):
 
 class Recall(Metric):
     def evaluate(self, ground_truth: np.ndarray, predictions: np.ndarray) -> float:
-        """Evaluate using Recall metric."""
-        tp = np.sum((ground_truth == 1) & (predictions == 1))
-        fn = np.sum((ground_truth == 1) & (predictions == 0))
-        return tp / (tp + fn) if (tp + fn) > 0 else 0
+        """Evaluate using Recall for multiclass classification."""
+        # Look how much classes we have
+        classes = np.unique(ground_truth)
+        recall_scores = []
+
+        # Go over classes and find precision score per class
+        for cls in classes:
+            tp = np.sum((ground_truth == cls) & (predictions == cls))
+            fn = np.sum((ground_truth == cls) & (predictions != cls))
+            recall = tp / (tp + fn) if (tp + fn) > 0 else 0
+            recall_scores.append(recall)
+
+        # We return the macro-averaging
+        return np.mean(recall_scores)
 
     def __str__(self) -> str:
         """Return the name of metric"""

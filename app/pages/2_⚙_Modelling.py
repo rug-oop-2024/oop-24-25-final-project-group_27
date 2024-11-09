@@ -78,6 +78,15 @@ try:
             detect_features
         )
 
+        if 'pipeline_created' not in st.session_state:
+            st.session_state.pipeline_created = False
+        if 'pipeline_executed' not in st.session_state:
+            st.session_state.pipeline_executed = False
+        if 'pipeline' not in st.session_state:
+            st.session_state.pipeline = None
+        if 'results' not in st.session_state:
+            st.session_state.results = None
+
         if len(input_features) < 2:
             st.warning("Please select at least 2 input features.")
         else:
@@ -100,7 +109,6 @@ try:
             # Make user select a model
             st.write("## Choose a model type")
             chosen_model = get_model(st.selectbox("Model type:", available_models))
-
 
             # Make user select dataset split
             st.write("### Choose dataset split")
@@ -132,8 +140,21 @@ try:
                     target_feature=target_feature,
                     split=split_ratio
                 )
+                st.session_state.pipeline = pipeline
+                st.session_state.pipeline_created = True
                 st.success("Pipeline created successfully!")
-                st.write(pipeline)
+
+            if st.session_state.pipeline_created:
+                st.write(st.session_state.pipeline)
+
+                if st.button("Evaluate model"):
+                    results = st.session_state.pipeline.execute()
+                    st.session_state.pipeline_executed = True
+                    st.session_state.results = results
+                    st.success("Pipeline executed succesfully")
+
+        if st.session_state.pipeline_executed:
+            st.write(st.session_state.results)
 
 
 except NotFoundError:

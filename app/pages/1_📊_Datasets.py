@@ -18,6 +18,9 @@ if uploaded_file:
     # Read the uploaded CSV file into a DataFrame
     data = pd.read_csv(uploaded_file)
 
+    # drop nan
+    data = data.dropna()
+
     # Input for the dataset name
     name = st.text_input("Enter a name for your dataset")
     

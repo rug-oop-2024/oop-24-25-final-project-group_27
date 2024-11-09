@@ -1,3 +1,4 @@
+"""Implementation of RandomForestClassifier."""
 from autoop.core.ml.model import Model
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier as RFC
@@ -6,6 +7,7 @@ from typing import Optional
 
 class RandomForestClassifier(Model):
     """A Random Forest Classifier Wrapper."""
+
     def __init__(
             self,
             parameters: Optional[dict] = None,
@@ -22,10 +24,12 @@ class RandomForestClassifier(Model):
             parameters=parameters,
             **kwargs
         )
-        self.model = RFC(**self._parameters)
+        self.model = RFC(**self.parameters)
 
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:
+        """Fit the data."""
         self.model.fit(observations, ground_truth)
 
     def predict(self, observations: np.ndarray) -> np.ndarray:
+        """Predict the data."""
         return self.model.predict(observations)

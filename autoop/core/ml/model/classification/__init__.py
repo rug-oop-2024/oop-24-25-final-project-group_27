@@ -1,3 +1,3 @@
-from autoop.core.ml.model.classification.logistic_regression import LogisticRegression
+from autoop.core.ml.model.classification.decision_tree_classifier import DTC
 from autoop.core.ml.model.classification.random_forest_classifier import RandomForestClassifier
-from autoop.core.ml.model.classification.svc import SVC
+from autoop.core.ml.model.classification.knn import KNN

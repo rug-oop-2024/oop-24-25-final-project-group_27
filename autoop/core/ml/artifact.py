@@ -34,6 +34,7 @@ class Artifact(BaseModel):
         return self.data
 
     def save(self, data: bytes) -> bytes:
-        # Save the data in bytes of this artifact and return the bytes of the whole artifact.
+        # Save the data in bytes of this artifact and return the bytes the
+        # artifact.
         self.data = data
         return self.data

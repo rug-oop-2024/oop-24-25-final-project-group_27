@@ -33,7 +33,12 @@ if uploaded_file:
     # If the user clicks the "Create Dataset" button and provides a name
     if st.button("Create Dataset") and name:
         # Create a new Dataset instance from the uploaded CSV
-        new_dataset = Dataset.from_dataframe(data, name=name, asset_path=f"{name}.csv", tags=tags, metadata=metadata)
+        new_dataset = Dataset.from_dataframe(
+            data,
+            name=name,
+            asset_path=f"datasets/{name}.csv",
+            tags=tags,
+            metadata=metadata)
 
         # Register the dataset with the registry
         automl.registry.register(new_dataset)

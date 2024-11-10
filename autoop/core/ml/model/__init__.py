@@ -1,3 +1,4 @@
+"""Types of models and factory method for models."""
 from autoop.core.ml.model.model import Model
 from autoop.core.ml.model.regression import (
     SVR,

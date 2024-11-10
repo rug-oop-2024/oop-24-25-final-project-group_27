@@ -151,34 +151,37 @@ If the feature has been implemented by both students, write `both`.
 
 If you did not implement the feature
 
-| Requirement                           | Type (FN/NF) | Implemented by       | Implementation Completed (add X if done) | Comment |
-|-------------------------------------- |--------------|----------------------|--------------------------|---------|         
-| Up-to-date requirements.txt           | NF           |  both                    |x         | |
-| `ML/detect-features`                  | FN           |  both                    |x         | |
-| `ML/artifact`                         | NF           |  both                    |x         | |
-| `ML/feature`                          | NF           |  both                    |x         | |
-| `ML/metric`                           | NF           |  both                    |x         | |
-| `ML/metric/extensions`                | FN           |  both                    |x         | |
-| `ML/model`                            | NF           |  both                    |x         | |
-| `ML/model/extensions`                 | FN           |  both                    |x         | |
-| `ML/pipeline/evaluation`              | FN           |  both                    |x         | | 
-| `ST/page/datasets`                    | NF           |  both                    |x         | |
-| `ST/datasets/management/create`       | FN           |  both                    |x         | |
-| `ST/datasets/management/save`         | FN           |  both                    |x         | |
-| `ST/page/modelling`                   | NF           |  both                    |x         | |
-| `ST/modelling/datasets/list`          | FN           |  both                    |x         | |
-| `ST/modelling/datasets/features`      | FN           |  both                    |x         | |
-| `ST/modelling/models`                 | FN           |  both                    |x         | |
-| `ST/modelling/pipeline/split`         | FN           |  both                    |x         | |
-| `ST/modelling/pipeline/metrics`       | FN           |  both                    |x         | |
-| `ST/modelling/pipeline/summary`       | FN           |  both                    |x         | |
-| `ST/modelling/pipeline/train`         | FN           |  both                    |x         | |
-| `ST/modelling/pipeline/save`          | FN           |                      |         | |
-| `ST/page/deployment`                  | FN           |                      |         | |
-| `ST/deployment/load`                  | FN           |                      |         | |
-| `ST/deployment/predict`               | FN           |                      |         | |
+| Requirement                           | Type (FN/NF) | Implemented by | Implementation Completed | Comment |
+|-------------------------------------- |--------------|--------|--------------------------|-------|         
+| Up-to-date requirements.txt           | NF           |  both                |x         |
+| `ML/detect-features`                  | FN           |  both                |x         |The detect_feature_types function assumes the dataset only contains categorical and numerical features, with no missing values. It uses pandas' dtypes to classify features as either numerical (int64, float64) or categorical, creating a Feature object for each and setting its type accordingly. This approach is efficient and leverages pandas' built-in functionality for type detection |
+| `ML/artifact`                         | NF           |  both                |x         |The Artifact class uses pydantic for structured data validation, enforcing types and constraints on fields like type, name, and version. The generate_id method creates a unique ID by encoding asset_path in base64 and combining it with a sanitized version, ensuring consistency and compatibility across systems. The read and save methods manage data retrieval and updates in bytes, enhancing the class's functionality as a flexible container for artifact metadata and content. |
+| `ML/feature`                          | NF           |  both                |x         |The Feature class uses Pydantic to ensure that fields like name and type are correctly typed and described. The type attribute is restricted to either numerical or categorical, keeping the classification consistent. The str method returns the feature’s name when printed, making it easier to read and identify each feature in outputs. ||
+| `ML/metric`                           | NF           |  both                |x         |The Metric class defines a template for evaluation metrics, ensuring that each subclass implements the evaluate method to compute a score based on ground truth and predictions, and the string method to return the metric's name. This abstract base class structure enforces consistency across different metric implementations, supporting easy integration and reuse.|
+| `ML/model`                            | NF           |  both                |x         |The ML/model has been implemented in t |
+| `ML/model/extensions`                 | FN           |  both                |x         |The ml/models directory organizes machine learning models by task, with two folders for classification and regression. The classification folder includes models like Decision Tree Classifier, K Nearest Neighbors, and Random Forest Classifier. The regression folder contains models for Linear Regression, Random Forest Regressor, and Support Vector Regressor, supporting a variety of predictive modeling tasks. |
+| `ML/pipeline/evaluation`              | FN           |  both                |x         |The evaluate function was already implemented with X and Y being test_X and test_Y. We have implemented a second method, train_evaluate for the x and y being for train_x and train_y. | 
+| `ST/page/datasets`                    | NF           |  both                |x         |The datasets page allows the user to upload a CSV file, which is then processed and cleaned by dropping NaN values. The user can input a name and tags for the dataset, while unique experiment and run IDs are auto-generated as metadata. Upon clicking "Create Dataset", a new Dataset instance is created from the uploaded CSV and registered with the AutoML system. A success message is displayed, and the updated list of datasets is shown for confirmation. |
+| `ST/datasets/management/create`       | FN           |  both                |x         |If the user clicks the "Create Dataset" button and provides a name, a new Dataset instance is created from the uploaded CSV. The dataset is initialized with the provided name, a file path where it will be stored, the tags entered by the user, and automatically generated metadata. This new dataset is then prepared for registration or further use. |
+| `ST/datasets/management/save`         | FN           |  both                |x         |The CSV is saved with using the register method that is in the ArtifcatRegistry class which was given. |
+| `ST/page/modelling`                   | NF           |  both                |x         |The Modelling page provides a user interface for designing and training machine learning models using datasets. It allows the user to select a dataset, choose input and target features, and determine whether the task is classification or regression based on the target feature type. Users can create machine learning pipelines, select metrics, and evaluate the model using various configurations. |
+| `ST/modelling/datasets/list`          | FN           |  both                |x         |This section displays a list of available datasets from the AutoML registry. Users can select a dataset from the list, which will then be used for training. The dataset is loaded and previewed, showing the first few rows of data for the user's review. |
+| `ST/modelling/datasets/features`      | FN           |  both                |x         |In this section, users can select input features and a target feature for the machine learning model. The target feature is selected from the available features, and it is automatically removed from the input features list to avoid duplication. The feature types are detected to help the system determine the task type (classification or regression). |
+| `ST/modelling/models`                 | FN           |  both                |x         |This section allows users to choose a machine learning model based on the task type (classification or regression). After selecting a model, users can configure dataset splits and choose evaluation metrics. The user can then create a machine learning pipeline, which, once created, can be executed to train the model and evaluate its performance. The results are displayed upon execution. |
+| `ST/modelling/pipeline/split`         | FN           |  both                |x         |This section allows users to select the split ratio for dividing the dataset into training and testing subsets. The split ratio is a float value between 0.05 and 0.95, where the value represents the proportion of data used for training (the remainder is used for testing). The selected ratio is passed to the pipeline, influencing how the data is partitioned for model training and evaluation. |
+| `ST/modelling/pipeline/metrics`       | FN           |  both                |x         |Users can select one or more evaluation metrics that will be used to assess the performance of the selected model. These metrics are essential for understanding how well the model generalizes to unseen data and are passed to the pipeline for use during evaluation. The selected metrics will be applied to both the training and testing data to measure the model's accuracy. |
+| `ST/modelling/pipeline/summary`       | FN           |  both                |x         |This section provides a summary of the pipeline configuration, including the selected model type, input features, target feature, metrics, and the dataset split ratio. |
+| `ST/modelling/pipeline/train`         | FN           |  both                |x         |This section is responsible for training the model. After the dataset is split into training and testing sets and preprocessing is completed, the model is trained on the training data (input features and target).|
+| `ST/modelling/pipeline/save`          | FN           |                      |          | |
+| `ST/page/deployment`                  | FN           |                      |          | |
+| `ST/deployment/load`                  | FN           |                      |          | |
+| `ST/deployment/predict`               | FN           |                      |          | |
 
 If you add extra features, please indicate them below:
 | Requirement                           | Type (FN/NF) | Implemented by       | Implementation Completed (add X if done) | Comment |
 |-------------------------------------- |--------------|----------------------|---------|-----|
 |           |            |                      |         | |
+
+
+Below, it can be seen that we have 3 different datasets working. The first one is the California Housing Dataset, the second one the Wine dataset and the third one the Gym Member Exercise dataset. 
+

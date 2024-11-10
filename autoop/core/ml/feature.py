@@ -1,12 +1,21 @@
 
 from pydantic import BaseModel, Field
-from typing import Literal
-import numpy as np
 
-from autoop.core.ml.dataset import Dataset
 
 class Feature(BaseModel):
-    # attributes here
+    """Feature class."""
 
-    def __str__(self):
-        raise NotImplementedError("To be implemented.")
+    # attributes here
+    name: str = Field(..., description="The name can be anything.")
+    type: str = Field(
+        None,
+        description="Type must be 'numerical' or 'categorical'."
+    )
+
+    def __str__(self) -> str:
+        """text when printed.
+
+        Returns:
+            str: Name of feature.
+        """
+        return f"{self.name}"

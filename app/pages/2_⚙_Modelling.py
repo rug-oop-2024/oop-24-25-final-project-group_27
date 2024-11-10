@@ -157,12 +157,35 @@ try:
                 if st.button("Evaluate model"):
                     results = st.session_state.pipeline.execute()
                     st.session_state.pipeline_executed = True
-                    st.session_state.results = results
                     st.success("Pipeline executed succesfully")
 
         if st.session_state.pipeline_executed:
-            st.write(st.session_state.results)
+            # For our test results
+            metrics_results = st.session_state.pipeline._metrics_results
+            test_metrics = {
+                metric.__class__.__name__: result
+                for metric, result in metrics_results
+            }
+            # For train results
+            train_m_results = st.session_state.pipeline._train_metrics_results
+            train_metrics = {
+                metric.__class__.__name__: result
+                for metric, result in train_m_results
+            }
+            # Display Test Metrics
+            st.write("## The test metrics results are:")
+            for metric, value in test_metrics.items():
+                st.write(f"{metric}: {value}")
+            st.write("### This are the corresponding test predictions.")
+            st.write("Test Predictions:", results["test_predictions"])
 
+            st.write("\n")
+
+            st.write("## The train metrics results are:")
+            for metric, value in train_metrics.items():
+                st.write(f"{metric}: {value}")
+            st.write("### This are the corresponding train predictions.")
+            st.write("Train Predictions:", results["train_predictions"])
 
 except NotFoundError:
     st.write("### No datasets found. Please upload a dataset to proceed.")

@@ -13,7 +13,7 @@ class Model(Artifact, BaseModel):
     parameters: Optional[dict] = Field(default_factory=dict)
     model: object = None
 
-    def __init__(self, name: str, *args, **kwargs):
+    def __init__(self, name: str, *args, **kwargs) -> None:
         """Initialize model with call to Basemodel and Artifact."""
         BaseModel.__init__(self, **kwargs)
         Artifact.__init__(

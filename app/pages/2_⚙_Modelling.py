@@ -1,7 +1,6 @@
 import streamlit as st
 
 from app.core.system import AutoMLSystem
-from autoop.core.ml.dataset import Dataset
 from autoop.functional.feature import detect_feature_types
 from autoop.core.storage import NotFoundError
 from autoop.core.ml.model import (
@@ -20,8 +19,14 @@ from autoop.core.ml.pipeline import Pipeline
 st.set_page_config(page_title="Modelling", page_icon="📈")
 
 
-def write_helper_text(text: str):
+def write_helper_text(text: str) -> None:
+    """Writer helper function.
+
+    Args:
+        text (str): Text to write.
+    """
     st.write(f"<p style=\"color: #888;\">{text}</p>", unsafe_allow_html=True)
+
 
 st.write("# ⚙ Modelling")
 write_helper_text("In this section, you can design a machine learning pipeline"
@@ -108,7 +113,9 @@ try:
             )
             # Make user select a model
             st.write("## Choose a model type")
-            chosen_model = get_model(st.selectbox("Model type:", available_models))
+            chosen_model = get_model(
+                st.selectbox("Model type:", available_models)
+            )
 
             # Make user select dataset split
             st.write("### Choose dataset split")

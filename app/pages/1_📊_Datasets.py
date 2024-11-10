@@ -1,11 +1,9 @@
 import streamlit as st
 import pandas as pd
-import ast  # To safely convert input string to a dictionary
 import uuid  # For generating unique IDs
 
 from app.core.system import AutoMLSystem
 from autoop.core.ml.dataset import Dataset
-from app.core.system import ArtifactRegistry
 
 # Get an instance of AutoMLSystem and access the registry
 automl = AutoMLSystem.get_instance()
@@ -23,7 +21,7 @@ if uploaded_file:
 
     # Input for the dataset name
     name = st.text_input("Enter a name for your dataset")
-    
+
     # Input for tags (simple string)
     tags = st.text_input("Enter the tags for the dataset.")
 
@@ -32,7 +30,7 @@ if uploaded_file:
         "experiment_id": str(uuid.uuid4()),
         "run_id": str(uuid.uuid4())
     }
-    
+
     # If the user clicks the "Create Dataset" button and provides a name
     if st.button("Create Dataset") and name:
         # Create a new Dataset instance from the uploaded CSV
@@ -45,7 +43,7 @@ if uploaded_file:
 
         # Register the dataset with the registry
         automl.registry.register(new_dataset)
-        
+
         # Display success message
         st.success(f"Dataset '{name}' created and saved successfully!")
 
@@ -55,4 +53,3 @@ if uploaded_file:
 
 else:
     st.write("Please upload a CSV to continue.")
-

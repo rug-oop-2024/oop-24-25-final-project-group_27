@@ -11,7 +11,7 @@ class ArtifactRegistry():
 
     def __init__(self,
                  database: Database,
-                 storage: Storage):
+                 storage: Storage) -> None:
         """Initialize Registry.
 
         Args:
@@ -21,7 +21,7 @@ class ArtifactRegistry():
         self._database = database
         self._storage = storage
 
-    def register(self, artifact: Artifact):
+    def register(self, artifact: Artifact) -> None:
         """Register an Artifact.
 
         Args:
@@ -105,7 +105,7 @@ class ArtifactRegistry():
             data=self._storage.load(data["asset_path"]),
         )
 
-    def delete(self, artifact_id: str):
+    def delete(self, artifact_id: str) -> None:
         """Delete Artifact from Storage and Database.
 
         Args:
@@ -121,7 +121,7 @@ class AutoMLSystem:
 
     _instance = None
 
-    def __init__(self, storage: LocalStorage, database: Database):
+    def __init__(self, storage: LocalStorage, database: Database) -> None:
         """Initialize AutoMLSystem.
 
         Args:
@@ -133,7 +133,7 @@ class AutoMLSystem:
         self._registry = ArtifactRegistry(database, storage)
 
     @staticmethod
-    def get_instance():
+    def get_instance() -> None:
         """Get instance.
 
         Returns:
@@ -150,6 +150,6 @@ class AutoMLSystem:
         return AutoMLSystem._instance
 
     @property
-    def registry(self):
+    def registry(self) -> ArtifactRegistry:
         """Getter function for registry."""
         return self._registry

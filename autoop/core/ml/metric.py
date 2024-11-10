@@ -25,7 +25,16 @@ CLAS_METRICS = [
     "recall"
 ]
 
+
 def get_metric(name: str) -> 'Metric':
+    """Factory method.
+
+    Args:
+        name (str): Metric name to get.
+
+    Returns:
+        Metric: Metric instance.
+    """
     # Factory function to get a metric by name.
     # Return a metric instance given its str name.
     if name == "mean_squared_error":
@@ -43,25 +52,45 @@ def get_metric(name: str) -> 'Metric':
 
 
 class Metric(ABC):
-    """Base class for all metrics. """
-    
+    """Base class for all metrics."""
+
     @abstractmethod
-    def evaluate(self, ground_truth: np.ndarray, predictions: np.ndarray) -> float:
+    def evaluate(
+        self,
+        ground_truth: np.ndarray,
+        predictions: np.ndarray
+    ) -> float:
+        """Abstract method to be implemented.
+
+        Args:
+            ground_truth (np.ndarray): Ground truths
+            predictions (np.ndarray): Predictions
+
+        Returns:
+            float: Evaluation score
+        """
         pass
 
     @abstractmethod
     def __str__(self) -> str:
+        """String method.
+
+        Returns:
+            str: Text to print.
+        """
         pass
 
-    # your code here
-    # remember: metrics take ground truth and prediction as input and return a real number
-
-    # wordt evaluate genoemd in pipeline.py dus aanpasssen en dan evaluate abstract en toepassen in concrete metrics
 
 # add here concrete implementations of the Metric class
 class MeanSquaredError(Metric):
-    def evaluate(self, ground_truth: np.ndarray, predictions: np.ndarray) -> float:
-        """"Evaluate using Mean Squared Error."""
+    """Mean Squared Error class."""
+
+    def evaluate(
+            self,
+            ground_truth: np.ndarray,
+            predictions: np.ndarray
+    ) -> float:
+        """Evaluate using Mean Squared Error."""
         return np.sum((ground_truth - predictions) ** 2) / len(ground_truth)
 
     def __str__(self) -> str:
@@ -70,8 +99,14 @@ class MeanSquaredError(Metric):
 
 
 class MeanAbsoluteError(Metric):
-    def evaluate(self, ground_truth: np.ndarray, predictions: np.ndarray) -> float:
-        """"Evaluate using Mean Absolute Error."""
+    """Mean Absolute Error."""
+
+    def evaluate(
+            self,
+            ground_truth: np.ndarray,
+            predictions: np.ndarray
+    ) -> float:
+        """Evaluate using Mean Absolute Error."""
         return np.mean(np.abs(ground_truth - predictions))
 
     def __str__(self) -> str:
@@ -80,9 +115,17 @@ class MeanAbsoluteError(Metric):
 
 
 class RSquared(Metric):
-    def evaluate(self, ground_truth: np.ndarray, predictions: np.ndarray) -> float:
+    """RSquared."""
+
+    def evaluate(
+            self,
+            ground_truth: np.ndarray,
+            predictions: np.ndarray
+    ) -> float:
         """Evaluate using R^2."""
-        return 1 - np.sum((ground_truth - predictions) ** 2) / np.sum((ground_truth - np.mean(ground_truth)) ** 2)
+        sum_sq_res = np.sum((ground_truth - predictions) ** 2)
+        sum_sq_tot = np.sum((ground_truth - np.mean(ground_truth)) ** 2)
+        return 1 - (sum_sq_res / sum_sq_tot)
 
     def __str__(self) -> str:
         """Return the name of metric"""
@@ -90,7 +133,13 @@ class RSquared(Metric):
 
 
 class Accuracy(Metric):
-    def evaluate(self, ground_truth: np.ndarray, predictions: np.ndarray) -> float:
+    """Accuracy."""
+
+    def evaluate(
+            self,
+            ground_truth: np.ndarray,
+            predictions: np.ndarray
+    ) -> float:
         """Evaluate using Accuracy."""
         return np.sum(ground_truth == predictions) / len(ground_truth)
 
@@ -100,7 +149,13 @@ class Accuracy(Metric):
 
 
 class Precision(Metric):
-    def evaluate(self, ground_truth: np.ndarray, predictions: np.ndarray) -> float:
+    """Precision."""
+
+    def evaluate(
+            self,
+            ground_truth: np.ndarray,
+            predictions: np.ndarray
+    ) -> float:
         """Evaluate using Precision for multiclass classification."""
         # Look how much classes we have
         classes = np.unique(ground_truth)
@@ -122,7 +177,13 @@ class Precision(Metric):
 
 
 class Recall(Metric):
-    def evaluate(self, ground_truth: np.ndarray, predictions: np.ndarray) -> float:
+    """Recall."""
+
+    def evaluate(
+            self,
+            ground_truth: np.ndarray,
+            predictions: np.ndarray
+    ) -> float:
         """Evaluate using Recall for multiclass classification."""
         # Look how much classes we have
         classes = np.unique(ground_truth)
